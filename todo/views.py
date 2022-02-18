@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import ToDoForm
 from .models import Todo
 
@@ -55,7 +55,7 @@ def logout_user(request):
 
 def current_todos(request):
     todos = Todo.objects.filter(user=request.user, completed__isnull=True, )
-    return render(request, 'todo/current_todos.html',  {'todos': todos})
+    return render(request, 'todo/current_todos.html', {'todos': todos})
 
 
 def create_todo(request):
@@ -68,7 +68,22 @@ def create_todo(request):
             new_todo.user = request.user
             new_todo.save()
             return redirect('current_todos')
+
         except ValueError:
             return render(request, 'todo/create_todo.html', {'form': ToDoForm(),
                                                              'error': 'Bad data passed in. Try again.'})
 
+
+def view_todo(request, todo_pk):
+    todo = get_object_or_404(Todo, pk=todo_pk, user=request.user)
+    if request.method == 'GET':
+        form = ToDoForm(instance=todo)
+        return render(request, 'todo/todo.html', {'todo': todo, 'form': form})
+    else:
+        try:
+            form = ToDoForm(request.POST, instance=todo)
+            form.save()
+            return redirect('current_todos')
+        except ValueError:
+            return render(request, 'todo/todo.html', {'todo': todo, 'form': ToDoForm(),
+                                                      'error': 'Bad info'})

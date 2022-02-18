@@ -5,6 +5,7 @@
     <title>ToDo</title>
 </head>
 <body>
+
     {% if user.is_authenticated %}
 
         Logged In as {{ user.username }}
@@ -22,5 +23,6 @@
     {% endif %}
 
     {% block content %}{% endblock content %}
+
 </body>
 </html>

@@ -18,17 +18,18 @@
         <ul>
             {% for todo in todos %}
                 <li>
-                    {% if todo.important %}
-                        <h2 style="color: red;">{{ todo.title }}</h2>
-                    {% else %}
-                        <h2>{{ todo.title }}</h2>
-                    {% endif %}
-
-                    {% if todo.description %}
-                        <p>- {{ todo.description|truncatechars:50 }}</p>
-                    {% else %}
-                        <p>Описание отсутствует!</p>
-                    {% endif %}
+                    <a href="{% url 'view_todo' todo.id %}">
+                        {% if todo.important %}
+                            <h2 style="color: red;">{{ todo.title }}</h2>
+                        {% else %}
+                            <h2>{{ todo.title }}</h2>
+                        {% endif %}
+                    </a>
+                        {% if todo.description %}
+                            <p>- {{ todo.description|truncatechars:50 }}</p>
+                        {% else %}
+                            <p>Описание отсутствует!</p>
+                        {% endif %}
                 </li>
             {% endfor %}
         </ul>
