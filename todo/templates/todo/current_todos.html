@@ -11,6 +11,31 @@
 {% block content %}
 
     <h1>ToDo</h1>
+    <a href="{% url 'create_todo' %}">Create</a>
+
+    {% if todos %}
+
+        <ul>
+            {% for todo in todos %}
+                <li>
+                    {% if todo.important %}
+                        <h2 style="color: red;">{{ todo.title }}</h2>
+                    {% else %}
+                        <h2>{{ todo.title }}</h2>
+                    {% endif %}
+
+                    {% if todo.description %}
+                        <p>- {{ todo.description|truncatechars:50 }}</p>
+                    {% else %}
+                        <p>Описание отсутствует!</p>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+
+    {% else %}
+        <h2>No tasks. Create!</h2>
+    {% endif %}
 
 {% endblock %}
 </body>
