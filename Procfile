@@ -1,1 +1,0 @@
-web: gunicorn todowooo.wsgi --log-file -
