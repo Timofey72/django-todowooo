@@ -132,3 +132,13 @@ def delete_completed_todo(request, todo_pk):
     if request.method == 'POST':
         todo.delete()
         return redirect('completed_todos')
+
+
+@login_required
+def error_404(request, exception):
+    return render(request, 'error/404.html')
+
+
+@login_required
+def error_500(request):
+    return render(request, 'error/500.html')
