@@ -40,7 +40,11 @@ urlpatterns = [
     path('todo/<int:todo_pk>/delete', views.delete_todo, name='delete_todo'),
 ]
 
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 handler404 = "todo.views.error_404"
 handler500 = "todo.views.error_500"
