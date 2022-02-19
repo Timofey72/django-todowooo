@@ -13,6 +13,8 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 from todo import views
@@ -31,6 +33,10 @@ urlpatterns = [
     path('completed/', views.completed_todos, name='completed_todos'),
     path('create/', views.create_todo, name='create_todo'),
     path('todo/<int:todo_pk>', views.view_todo, name='view_todo'),
+    path('completed/todo/<int:todo_pk>', views.completed_todo, name='completed_todo'),
     path('todo/<int:todo_pk>/complete', views.complete_todo, name='complete_todo'),
+    path('completed/todo/<int:todo_pk>/delete', views.delete_completed_todo, name='delete_completed_todo'),
     path('todo/<int:todo_pk>/delete', views.delete_todo, name='delete_todo'),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

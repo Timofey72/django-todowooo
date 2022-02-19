@@ -1,54 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>ToDo</title>
-</head>
-<body>
-
-    <!DOCTYPE html>
-
 {% extends "todo/base.html" %}
 
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>ToDo</title>
-</head>
-<body>
 {% block content %}
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-10">
+            <h1>Completed Todos</h1>
+        </div>
+    </div>
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-10">
+            <div class="list-group">
 
-    <h1>Completed</h1>
+                {% if todos %}
+                    {% for todo in todos %}
+                        <a href="{% url 'completed_todo' todo.id %}" class="list-group-item list-group-item-action{% if todo.important %} list-group-item-danger{% endif %}"><b>{{ todo.title }}</b> - Completed - {{ todo.completed|date:'M j Y H:i'|upper }}</a>
+                    {% endfor %}
+                {% else %}
+                    <h3 style="text-align: center">You don't have completed tasks yet :(</h3>
+                {% endif %}
 
-    {% if todos %}
-
-        <ul>
-            {% for todo in todos %}
-                <li>
-                    <a href="{% url 'view_todo' todo.id %}">
-                        {% if todo.important %}
-                            <h2 style="color: red;">{{ todo.title }}</h2>
-                        {% else %}
-                            <h2>{{ todo.title }}</h2>
-                        {% endif %}
-                        {{ todo.completed|date:'M j Y H:i'|upper }}
-                    </a>
-                        {% if todo.description %}
-                            <p>- {{ todo.description|truncatechars:50 }}</p>
-                        {% else %}
-                            <p>Описание отсутствует!</p>
-                        {% endif %}
-                </li>
-            {% endfor %}
-        </ul>
-
-    {% else %}
-        <h2>No completed tasks!</h2>
-    {% endif %}
-
+            </div>
+        </div>
+    </div>
 {% endblock %}
-</body>
-</html>
-
-</body>
-</html>

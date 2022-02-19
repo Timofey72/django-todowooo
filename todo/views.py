@@ -103,6 +103,13 @@ def view_todo(request, todo_pk):
 
 
 @login_required
+def completed_todo(request, todo_pk):
+    todo = get_object_or_404(Todo, pk=todo_pk, user=request.user)
+    form = ToDoForm(instance=todo)
+    return render(request, 'todo/completed_todo.html', {'todo': todo, 'form': form})
+
+
+@login_required
 def complete_todo(request, todo_pk):
     todo = get_object_or_404(Todo, pk=todo_pk, user=request.user)
     if request.method == 'POST':
@@ -117,3 +124,11 @@ def delete_todo(request, todo_pk):
     if request.method == 'POST':
         todo.delete()
         return redirect('current_todos')
+
+
+@login_required
+def delete_completed_todo(request, todo_pk):
+    todo = get_object_or_404(Todo, pk=todo_pk, user=request.user)
+    if request.method == 'POST':
+        todo.delete()
+        return redirect('completed_todos')
